@@ -21,7 +21,7 @@ class Transfer
     elsif @sender.balance < @amount
       @status = "rejected"
       "Transaction rejected. Please check your account balance."
-    elsif !@sender.valid?
+    elsif @sender.valid? == false
       @status = "rejected"
       "Transaction rejected. Please check your account balance."
     elsif !@receiver.valid?
@@ -33,14 +33,13 @@ class Transfer
       @status = "complete"
     end
 
-
-
-    #  @sender.balance -= @amount
-    #  @receiver.balance += @amount
-    #  @status = "complete"
-    # end
-
-
+    def reverse_transfer
+      if @status == "complete"
+        @sender.deposit(@amount)
+        @receiver.deposit(@amount * -1)
+        @status = "reversed"
+      end
+    end
 
 
   end
